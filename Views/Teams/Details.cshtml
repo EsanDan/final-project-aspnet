@@ -1,0 +1,26 @@
+@model LeagueManager.Models.Team
+@{
+    ViewData["Title"] = Model.Name;
+    var players = ViewBag.Players as IEnumerable<LeagueManager.Models.Player> ?? Enumerable.Empty<LeagueManager.Models.Player>();
+}
+
+<h1>@Model.Name</h1>
+<p class="text-muted">@Model.City &middot; Record: @Model.Wins-@Model.Losses</p>
+
+<h4>Roster</h4>
+@if (!players.Any())
+{
+    <p>No players on this team yet.</p>
+}
+else
+{
+    <ul class="list-group mb-3">
+        @foreach (var p in players)
+        {
+            <li class="list-group-item">@p.FullName <span class="text-muted">— @p.Position</span></li>
+        }
+    </ul>
+}
+
+<a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">Edit</a>
+<a asp-action="Index" class="btn btn-secondary">Back to Teams</a>
